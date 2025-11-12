@@ -37,8 +37,12 @@ const reviews = [
 
 // Update Balance Display
 function updateBalanceDisplay() {
-  document.getElementById("balance-nav").textContent = `${balance.toFixed(2)} BDT`;
-  document.getElementById("balance-display").textContent = `${balance.toFixed(2)} BDT`;
+  document.getElementById("balance-nav").textContent = `${balance.toFixed(
+    2
+  )} BDT`;
+  document.getElementById("balance-display").textContent = `${balance.toFixed(
+    2
+  )} BDT`;
   localStorage.setItem("userBalance", balance);
 }
 
@@ -137,13 +141,25 @@ function renderProducts(searchTerm = "") {
   grid.innerHTML = "";
   filteredProducts.forEach((product) => {
     const card = document.createElement("div");
-    card.className = "bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition";
+    card.className =
+      "bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition";
     card.innerHTML = `
-            <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover rounded mb-2">
-            <h3 class="font-bold text-lg mb-1">${product.title.substring(0, 50)}...</h3>
-            <p class="text-orange-600 font-semibold text-xl mb-1">${product.price*123} BDT</p>
-            <p class="text-sm text-gray-600 mb-2">Rating: ${product.rating.rate} (${product.rating.count} reviews)</p>
-            <button onclick="addToCart(${product.id})" class="w-full bg-orange-600 text-white py-2 rounded hover:bg-green-600 transition">Add to Cart</button>
+            <img src="${product.image}" alt="${
+      product.title
+    }" class="w-full h-48 object-cover rounded mb-2">
+            <h3 class="font-bold text-lg mb-1">${product.title.substring(
+              0,
+              50
+            )}...</h3>
+            <p class="text-orange-600 font-semibold text-xl mb-1">${
+              product.price * 123
+            } BDT</p>
+            <p class="text-sm text-gray-600 mb-2">Rating: ${
+              product.rating.rate
+            } (${product.rating.count} reviews)</p>
+            <button onclick="addToCart(${
+              product.id
+            })" class="w-full bg-orange-600 text-white py-2 rounded hover:bg-green-600 transition">Add to Cart</button>
         `;
     grid.appendChild(card);
   });
@@ -155,14 +171,21 @@ function renderCart() {
   const totalItems = getTotalItems();
   const total = subtotal - discount;
   document.getElementById("total-products").textContent = totalItems;
-  document.getElementById("subtotal").textContent = `${subtotal.toFixed(2)} BDT`;
-  document.getElementById("discount").textContent = `${discount.toFixed(2)} BDT`;
+  document.getElementById("subtotal").textContent = `${subtotal.toFixed(
+    2
+  )} BDT`;
+  document.getElementById("discount").textContent = `${discount.toFixed(
+    2
+  )} BDT`;
   document.getElementById("total").textContent = `${total.toFixed(2)} BDT`;
 }
 
 // Apply Coupon
 function applyCoupon() {
-  const code = document.getElementById("coupon-input").value.trim().toUpperCase();
+  const code = document
+    .getElementById("coupon-input")
+    .value.trim()
+    .toUpperCase();
   if (code === "SMART10") {
     discount = calculateSubtotal() * 0.1;
   } else {
@@ -187,6 +210,8 @@ function orderNow() {
   }
   if (confirm("Confirm order?")) {
     alert("Order placed successfully!");
+    balance -= total;
+    updateBalanceDisplay();
     cart = [];
     localStorage.setItem("cart", JSON.stringify(cart));
     discount = 0;
@@ -212,10 +237,13 @@ function renderReviews() {
   slides.innerHTML = "";
   reviews.forEach((review, index) => {
     const card = document.createElement("div");
-    card.className = "flex-shrink-0 w-full p-6 bg-gray-50 rounded-lg shadow-md mx-2";
+    card.className =
+      "flex-shrink-0 w-full p-6 bg-gray-50 rounded-lg shadow-md mx-2";
     card.innerHTML = `
             <div class="flex items-center mb-2">
-                <span class="text-yellow-500 mr-2">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</span>
+                <span class="text-yellow-500 mr-2">${"★".repeat(
+                  review.rating
+                )}${"☆".repeat(5 - review.rating)}</span>
                 <span class="font-bold">${review.name}</span>
             </div>
             <p class="text-gray-700 mb-2">${review.comment}</p>
@@ -238,13 +266,15 @@ function nextReviewSlide() {
 }
 
 function prevReviewSlide() {
-  currentReviewIndex = (currentReviewIndex - 1 + reviews.length) % reviews.length;
+  currentReviewIndex =
+    (currentReviewIndex - 1 + reviews.length) % reviews.length;
   showReviewSlide();
 }
 
 function updateReviewCounter() {
-  document.getElementById('current-review').textContent = currentReviewIndex + 1;
-  document.getElementById('total-reviews').textContent = reviews.length;
+  document.getElementById("current-review").textContent =
+    currentReviewIndex + 1;
+  document.getElementById("total-reviews").textContent = reviews.length;
 }
 
 // Contact Form
@@ -264,7 +294,8 @@ function handleFormSubmit(e) {
     return;
   }
 
-  document.getElementById("form-message").textContent = "Thank you for your message! We will get back to you soon.";
+  document.getElementById("form-message").textContent =
+    "Thank you for your message! We will get back to you soon.";
   document.getElementById("form-message").classList.remove("hidden");
   document.getElementById("contact-form").reset();
 }
@@ -281,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
       products = data;
       renderProducts();
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error fetching products:", error);
     });
 
@@ -298,8 +329,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("add-money").addEventListener("click", addMoney);
 
   // Review Controls
-  document.getElementById("next-review").addEventListener("click", nextReviewSlide);
-  document.getElementById("prev-review").addEventListener("click", prevReviewSlide);
+  document
+    .getElementById("next-review")
+    .addEventListener("click", nextReviewSlide);
+  document
+    .getElementById("prev-review")
+    .addEventListener("click", prevReviewSlide);
   setInterval(nextReviewSlide, 5000);
 
   // Product Search
@@ -308,13 +343,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Apply Coupon
-  document.getElementById("apply-coupon").addEventListener("click", applyCoupon);
+  document
+    .getElementById("apply-coupon")
+    .addEventListener("click", applyCoupon);
 
   // Order Now
   document.getElementById("order-now").addEventListener("click", orderNow);
 
   // Contact Form
-  document.getElementById("contact-form").addEventListener("submit", handleFormSubmit);
+  document
+    .getElementById("contact-form")
+    .addEventListener("submit", handleFormSubmit);
 
   // Back to Top
   document.getElementById("back-to-top").addEventListener("click", () => {
@@ -324,7 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Navbar Active Highlight (simple on click)
   document.querySelectorAll('nav a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (e) => {
-      document.querySelectorAll("nav a").forEach((a) => a.classList.remove("text-yellow-200"));
+      document
+        .querySelectorAll("nav a")
+        .forEach((a) => a.classList.remove("text-yellow-200"));
       e.target.classList.add("text-yellow-200");
     });
   });
